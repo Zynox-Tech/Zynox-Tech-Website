@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-accent-web: var(--accent-web);
+  --color-accent-web-soft: var(--accent-web-soft);
+  --color-accent-mobile: var(--accent-mobile);
+  --color-accent-mobile-soft: var(--accent-mobile-soft);
+  --color-accent-custom: var(--accent-custom);
+  --color-accent-custom-soft: var(--accent-custom-soft);
+  --color-accent-game: var(--accent-game);
+  --color-accent-game-soft: var(--accent-game-soft);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0A0B0D;
+  --bg-elevated: #14161A;
+  --surface: #1B1E23;
+  --border: #2A2D33;
+  --ink: #EDEEF0;
+  --ink-muted: #9A9DA4;
+  --ink-faint: #5C5F66;
+  
+  --accent-web: #4F8CFF;
+  --accent-web-soft: rgba(79, 140, 255, 0.1);
+  --accent-mobile: #34D399;
+  --accent-mobile-soft: rgba(52, 211, 153, 0.1);
+  --accent-custom: #F5A623;
+  --accent-custom-soft: rgba(245, 166, 35, 0.1);
+  --accent-game: #C961F2;
+  --accent-game-soft: rgba(201, 97, 242, 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  --bg: #0A0B0D;
+  --bg-elevated: #14161A;
+  --surface: #1B1E23;
+  --border: #2A2D33;
+  --ink: #EDEEF0;
+  --ink-muted: #9A9DA4;
+  --ink-faint: #5C5F66;
+  
+  --accent-web: #4F8CFF;
+  --accent-web-soft: rgba(79, 140, 255, 0.1);
+  --accent-mobile: #34D399;
+  --accent-mobile-soft: rgba(52, 211, 153, 0.1);
+  --accent-custom: #F5A623;
+  --accent-custom-soft: rgba(245, 166, 35, 0.1);
+  --accent-game: #C961F2;
+  --accent-game-soft: rgba(201, 97, 242, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root[data-theme="light"] {
+  --bg: #FAFAF9;
+  --bg-elevated: #FFFFFF;
+  --surface: #F2F2F0;
+  --border: #E3E3E0;
+  --ink: #14161A;
+  --ink-muted: #5C5F66;
+  --ink-faint: #9A9DA4;
+  
+  --accent-web: #2563EB;
+  --accent-web-soft: rgba(37, 99, 235, 0.08);
+  --accent-mobile: #059669;
+  --accent-mobile-soft: rgba(5, 150, 105, 0.08);
+  --accent-custom: #D97706;
+  --accent-custom-soft: rgba(217, 119, 6, 0.08);
+  --accent-game: #A21CAF;
+  --accent-game-soft: rgba(162, 28, 175, 0.08);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Base custom resets */
+html, body {
+  background-color: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
 }
+
+/* Custom scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-faint);
+}
+
+/* Custom styles for kinetic typography and shader overlay */
+.text-stroke {
+  -webkit-text-stroke: 1px var(--ink-muted);
+  color: transparent;
+}
+
+/* Theme logo adaptation to remove black background and invert text color in light theme */
+.theme-logo {
+  mix-blend-mode: screen;
+}
+
+:root[data-theme="light"] .theme-logo {
+  filter: invert(1);
+  mix-blend-mode: multiply;
+}
+

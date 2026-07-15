@@ -214,8 +214,8 @@ export default function MobileDevPage() {
             </span>
           </div>
 
-          {/* 3-column grid for desktop (lg:grid-cols-3), 2-column for mobile/tablet (grid-cols-2) */}
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+          {/* 1-column on mobile, 2-column on sm, 3-column on desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {MOBILE_PROJECTS.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -226,23 +226,23 @@ export default function MobileDevPage() {
                 className="group flex flex-col justify-between bg-bg-elevated border border-border/60 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-accent-mobile/40 transition-all duration-300"
               >
                 {/* Image block */}
-                <div className="relative aspect-[16/10] overflow-hidden bg-surface border-b border-border/50">
+                <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10] overflow-hidden bg-surface border-b border-border/50">
                   <Image 
                     src={project.image || '/images/projects/generic-mobile.png'}
                     alt={project.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-bg/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg/60 to-transparent" />
                   {/* Metric badge */}
-                  <div className="absolute top-3 right-3 bg-bg/85 backdrop-blur-md px-2 py-0.5 rounded border border-border text-[9px] font-mono text-accent-mobile font-bold uppercase tracking-wider shadow-sm">
+                  <div className="absolute top-3 left-3 bg-bg/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-border text-[10px] font-mono text-accent-mobile font-bold uppercase tracking-wider shadow-sm">
                     {project.metrics}
                   </div>
                 </div>
 
                 {/* Card Info */}
-                <div className="p-5 flex-grow flex flex-col justify-between">
+                <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between gap-2">
                       <h4 className="text-base font-bold text-ink group-hover:text-accent-mobile transition-colors duration-200 truncate">
@@ -293,7 +293,7 @@ export default function MobileDevPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: 0.2 }}
-              className="relative group bg-bg-elevated/40 border border-dashed border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-sm hover:border-accent-mobile/40 hover:shadow-md transition-all duration-300 min-h-[350px]"
+              className="relative group bg-bg-elevated/40 border border-dashed border-border/80 rounded-2xl p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-sm hover:border-accent-mobile/40 hover:shadow-md transition-all duration-300 min-h-[280px] sm:min-h-[350px]"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-accent-mobile/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               <div className="my-auto flex flex-col items-center max-w-[280px]">

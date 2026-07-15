@@ -8,15 +8,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
 
-    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+    // Supports both NEXT_PUBLIC_ (browser-safe) and server-only naming
+    const accessKey =
+      process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
+      process.env.WEB3FORMS_ACCESS_KEY;
 
     if (!accessKey) {
       // Development fallback — log to console when no key is configured
-      console.log(`\n--- [DEV: No WEB3FORMS_ACCESS_KEY set] ---
+      console.log(`\n--- [DEV: No Web3Forms key set] ---
 Name:    ${name}
 Email:   ${email}
 Message: ${message}
-------------------------------------------\n`);
+------------------------------------\n`);
       return NextResponse.json({ success: true, mock: true });
     }
 

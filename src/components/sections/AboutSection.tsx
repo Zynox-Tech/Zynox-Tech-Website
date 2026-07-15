@@ -16,6 +16,7 @@ const CORE_TEAM = [
     accent: '#4F8CFF',
     initials: 'HK',
     image: '/images/team/hashim.jpg',
+    objectPosition: 'center 10%',
     icon: Terminal
   },
   {
@@ -26,6 +27,7 @@ const CORE_TEAM = [
     accent: '#34D399',
     initials: 'UR',
     image: '/images/team/raza.jpeg',
+    objectPosition: 'center 15%',
     icon: Sparkles
   },
   {
@@ -36,6 +38,7 @@ const CORE_TEAM = [
     accent: '#F5A623',
     initials: 'SU',
     image: '/images/team/usman.jpeg',
+    objectPosition: 'center 15%',
     icon: Workflow
   },
   {
@@ -46,6 +49,7 @@ const CORE_TEAM = [
     accent: '#FF6B6B',
     initials: 'SA',
     image: '/images/team/shaheer.jpeg',
+    objectPosition: 'center 15%',
     icon: Shield
   },
   {
@@ -56,6 +60,7 @@ const CORE_TEAM = [
     accent: '#C961F2',
     initials: 'Ub',
     image: '/images/team/ubaid.jpeg',
+    objectPosition: 'center 15%',
     icon: Server
   }
 ];
@@ -159,7 +164,8 @@ export function AboutSection() {
                       alt={member.name}
                       fill
                       sizes="80px"
-                      className="object-cover object-center transition-all duration-300"
+                      className="object-cover transition-all duration-300"
+                      style={{ objectPosition: member.objectPosition || 'center 15%' }}
                     />
 
                     {/* Hover state outline overlays */}

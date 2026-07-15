@@ -16,6 +16,7 @@ const TEAM = [
     accent: '#4F8CFF',
     initials: 'HK',
     image: '/images/team/hashim.jpg',
+    objectPosition: 'center 10%',
     stack: ['Figma', 'Next.js', 'System Architecture', 'UI/UX Design', 'TypeScript'],
     philosophy: 'Design is not just what it looks like; design is how it works.',
     icon: Terminal
@@ -28,6 +29,7 @@ const TEAM = [
     accent: '#34D399',
     initials: 'UR',
     image: '/images/team/raza.jpeg',
+    objectPosition: 'center 15%',
     stack: ['Python', 'Django', 'PostgreSQL', 'FastAPI', 'Docker'],
     philosophy: 'Make the logic clean, testable, and robust against edge cases.',
     icon: Sparkles
@@ -40,6 +42,7 @@ const TEAM = [
     accent: '#F5A623',
     initials: 'SU',
     image: '/images/team/usman.jpeg',
+    objectPosition: 'center 15%',
     stack: ['Next.js', 'React', 'Node.js', 'Express', 'MongoDB'],
     philosophy: 'Great web interfaces should load instantly and respond to input without lag.',
     icon: Workflow
@@ -52,6 +55,7 @@ const TEAM = [
     accent: '#FF6B6B',
     initials: 'SA',
     image: '/images/team/shaheer.jpeg',
+    objectPosition: 'center 15%',
     stack: ['Flutter', 'Dart', 'React Native', 'iOS/Android SDKs', 'Firebase'],
     philosophy: 'Mobile apps should respond instantly to user touch and handle offline states.',
     icon: Shield
@@ -64,6 +68,7 @@ const TEAM = [
     accent: '#C961F2',
     initials: 'Ub',
     image: '/images/team/ubaid.jpeg',
+    objectPosition: 'center 15%',
     stack: ['Flutter', 'React Native', 'Dart', 'Firebase', 'REST APIs'],
     philosophy: 'Performance is a feature — every millisecond matters on mobile.',
     icon: Server
@@ -240,7 +245,8 @@ export default function AboutPage() {
                           alt={member.name}
                           fill
                           sizes="(max-width: 640px) 100vw, 270px"
-                          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          style={{ objectPosition: member.objectPosition || 'center 15%' }}
                         />
                         <div 
                           className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
@@ -338,7 +344,8 @@ export default function AboutPage() {
                           alt={member.name}
                           fill
                           sizes="(max-width: 640px) 100vw, 270px"
-                          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          style={{ objectPosition: member.objectPosition || 'center 15%' }}
                         />
                         <div 
                           className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"

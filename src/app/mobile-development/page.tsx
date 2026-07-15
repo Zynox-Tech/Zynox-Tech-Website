@@ -336,7 +336,7 @@ export default function MobileDevPage() {
       {/* ── GALLERY MODAL ── */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4">
             {/* Backdrop Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -352,11 +352,11 @@ export default function MobileDevPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[640px] shadow-2xl z-10"
+              className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] md:max-h-[680px] shadow-2xl z-10"
             >
               {/* Left Column: Image Viewer Carousel */}
-              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-4 overflow-hidden">
-                <div className="relative flex-grow flex items-center justify-center bg-surface rounded-xl overflow-hidden aspect-[4/3] sm:aspect-video md:aspect-auto md:h-[420px]">
+              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-2 md:p-4 overflow-hidden">
+                <div className="relative flex items-center justify-center bg-surface rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[3/4] md:aspect-auto md:h-[480px] shrink-0">
                   {/* Viewport content */}
                   <div 
                     className="relative w-full h-full bg-zinc-900/50 flex items-center justify-center cursor-zoom-in group/viewport"
@@ -368,7 +368,7 @@ export default function MobileDevPage() {
                       alt={`${selectedProject.title} screenshot`}
                       fill
                       sizes="(max-width: 768px) 100vw, 500px"
-                      className="object-contain transition-all duration-300 group-hover/viewport:scale-[1.01]"
+                      className="object-cover object-top transition-all duration-300 group-hover/viewport:scale-[1.01]"
                     />
 
                     {/* Nav Arrow Left */}

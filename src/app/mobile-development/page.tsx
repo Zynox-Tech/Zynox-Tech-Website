@@ -355,8 +355,12 @@ export default function MobileDevPage() {
               className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] md:max-h-[680px] shadow-2xl z-10"
             >
               {/* Left Column: Image Viewer Carousel */}
-              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-2 md:p-4 overflow-hidden">
-                <div className="relative flex items-center justify-center bg-surface rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[3/4] md:aspect-auto md:h-[480px] shrink-0">
+              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-center items-center p-3 md:p-6 gap-3 md:gap-4 overflow-hidden">
+                <div className="relative aspect-[9/16] h-[50vh] max-h-[360px] sm:h-[380px] md:h-[450px] bg-zinc-950 rounded-[28px] border-[6px] border-zinc-800 shadow-2xl shrink-0 flex flex-col overflow-hidden">
+                  {/* Phone Notch */}
+                  <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-16 h-3 bg-zinc-800 rounded-full z-20 flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-900" />
+                  </div>
                   {/* Viewport content */}
                   <div 
                     className="relative w-full h-full bg-zinc-900/50 flex items-center justify-center cursor-zoom-in group/viewport"

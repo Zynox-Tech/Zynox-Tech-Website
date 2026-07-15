@@ -312,8 +312,8 @@ export default function CustomSoftwarePage() {
               className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] md:max-h-[640px] shadow-2xl z-10"
             >
               {/* Left Column: Image/Video Viewer Carousel */}
-              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-2 md:p-4 overflow-hidden">
-                <div className="relative flex items-center justify-center bg-surface rounded-xl overflow-hidden aspect-video md:aspect-auto md:h-[420px] shrink-0">
+              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-center items-center p-3 md:p-6 gap-3 md:gap-4 overflow-hidden">
+                <div className="relative flex items-center justify-center bg-surface rounded-xl overflow-hidden w-full aspect-video shrink-0">
                   {currentProjectMedia[currentImageIndex]?.type === 'video' ? (
                     <video
                       src={currentProjectMedia[currentImageIndex].url}

@@ -343,8 +343,8 @@ export default function WebDevPage() {
               className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[95vh] md:max-h-[640px] shadow-2xl z-10"
             >
               {/* Left Column: Image Viewer Carousel */}
-              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-2 md:p-4 overflow-hidden">
-                <div className="relative flex flex-col bg-zinc-950 rounded-xl overflow-hidden border border-border/60 h-[52vw] max-h-[260px] sm:h-[300px] md:h-[420px] shrink-0">
+              <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-center items-center p-3 md:p-6 gap-3 md:gap-4 overflow-hidden">
+                <div className="relative flex flex-col bg-zinc-950 rounded-xl overflow-hidden border border-border/60 w-full aspect-[16/10] shrink-0">
                   {/* Browser top bar */}
                   <div className="h-8 bg-bg-elevated border-b border-border px-4 flex items-center justify-between shrink-0 select-none">
                     <div className="flex gap-1.5">

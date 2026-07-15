@@ -151,34 +151,26 @@ export default function CareersPage() {
     e.preventDefault();
     setStatus('loading');
     try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
-      if (!accessKey) {
-        await new Promise((r) => setTimeout(r, 1000));
-        setStatus('ok');
-        setName(''); setEmail(''); setPosition(''); setMessage(''); setCvFile(null);
-        return;
-      }
       const formData = new FormData();
-      formData.append('access_key', accessKey);
-      formData.append('subject', `Zynox Job Application: ${name} — ${position}`);
-      formData.append('from_name', 'Zynox Careers Page');
       formData.append('name', name);
       formData.append('email', email);
       formData.append('position', position);
       formData.append('message', message);
-      if (cvFile) formData.append('attachment', cvFile);
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+      if (cvFile) {
+        formData.append('attachment', cvFile);
+      }
+      const res = await fetch('/api/apply', { method: 'POST', body: formData });
       const data = await res.json();
-      if (data.success) {
+      if (res.ok && data.success) {
         setStatus('ok');
         setName(''); setEmail(''); setPosition(''); setMessage(''); setCvFile(null);
       } else {
         setStatus('err');
-        setStatusMsg(data.message || 'Something went wrong. Please try again.');
+        setStatusMsg(data.error || 'Something went wrong. Please try again.');
       }
     } catch {
       setStatus('err');
-      setStatusMsg('Unable to submit. Please check your connection or email us directly.');
+      setStatusMsg('Something went wrong. Please try again.');
     }
   };
 

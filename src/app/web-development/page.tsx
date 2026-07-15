@@ -36,6 +36,7 @@ function GithubIcon({ className, size = 14 }: { className?: string; size?: numbe
 export default function WebDevPage() {
   const [selectedProject, setSelectedProject] = useState<WebProject | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Compile project images: main image + gallery images
   const getProjectImages = (project: WebProject) => {
@@ -329,7 +330,7 @@ export default function WebDevPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedProject(null)}
+              onClick={() => { setSelectedProject(null); setIsLightboxOpen(false); }}
               className="absolute inset-0 bg-black/60 backdrop-blur-md"
             />
 
@@ -339,11 +340,11 @@ export default function WebDevPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-4xl bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[640px] shadow-2xl z-10"
+              className="relative w-full max-w-[1000px] bg-bg border border-border rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh] md:max-h-[640px] shadow-2xl z-10"
             >
               {/* Left Column: Image Viewer Carousel */}
               <div className="w-full md:w-[55%] bg-bg-elevated border-b md:border-b-0 md:border-r border-border flex flex-col justify-between p-4 overflow-hidden">
-                <div className="relative flex-grow flex flex-col bg-zinc-950 rounded-xl overflow-hidden border border-border/60 aspect-video md:aspect-auto md:h-[420px]">
+                <div className="relative flex-grow flex flex-col bg-zinc-950 rounded-xl overflow-hidden border border-border/60 aspect-[4/3] sm:aspect-video md:aspect-auto md:h-[420px]">
                   {/* Browser top bar */}
                   <div className="h-8 bg-bg-elevated border-b border-border px-4 flex items-center justify-between shrink-0 select-none">
                     <div className="flex gap-1.5">
@@ -358,18 +359,22 @@ export default function WebDevPage() {
                   </div>
                   
                   {/* Viewport */}
-                  <div className="relative flex-grow bg-zinc-900/50 flex items-center justify-center">
+                  <div 
+                    className="relative flex-grow bg-zinc-900/50 flex items-center justify-center cursor-zoom-in group/viewport"
+                    onClick={() => setIsLightboxOpen(true)}
+                    title="Click to view full image"
+                  >
                     <Image
                       src={currentProjectImages[currentImageIndex] || '/images/projects/generic-project.png'}
                       alt={`${selectedProject.title} screenshot`}
                       fill
                       sizes="(max-width: 768px) 100vw, 500px"
-                      className="object-contain object-top transition-all duration-300"
+                      className="object-contain object-top transition-all duration-300 group-hover/viewport:scale-[1.01]"
                     />
 
                     {/* Nav Arrow Left */}
                     <button
-                      onClick={handlePrevImage}
+                      onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
                       className="absolute left-3 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 border border-white/10 flex items-center justify-center text-white cursor-pointer transition-colors z-10"
                     >
                       <ChevronLeft size={16} />
@@ -377,11 +382,21 @@ export default function WebDevPage() {
 
                     {/* Nav Arrow Right */}
                     <button
-                      onClick={handleNextImage}
+                      onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
                       className="absolute right-3 w-8 h-8 rounded-full bg-black/50 hover:bg-black/80 border border-white/10 flex items-center justify-center text-white cursor-pointer transition-colors z-10"
                     >
                       <ChevronRight size={16} />
                     </button>
+
+                    {/* Zoom indicator icon */}
+                    <div className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 backdrop-blur-sm p-1.5 rounded-lg border border-white/10 text-white/70 group-hover/viewport:text-white transition-colors z-10">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                      </svg>
+                    </div>
 
                     {/* Indicator Index */}
                     <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-mono text-white select-none z-10">
@@ -389,7 +404,7 @@ export default function WebDevPage() {
                     </div>
                   </div>
                 </div>
-
+                
                 {/* Thumbnail Strip */}
                 <div className="flex gap-2 mt-4 overflow-x-auto pb-1 scrollbar-thin select-none">
                   {currentProjectImages.map((img, idx) => {
@@ -428,7 +443,7 @@ export default function WebDevPage() {
                       <h3 className="text-xl font-bold text-ink mt-0.5">{selectedProject.title}</h3>
                     </div>
                     <button
-                      onClick={() => setSelectedProject(null)}
+                      onClick={() => { setSelectedProject(null); setIsLightboxOpen(false); }}
                       className="p-1 rounded-lg border border-border bg-bg-elevated hover:bg-surface text-ink-muted hover:text-ink cursor-pointer transition-colors shrink-0"
                     >
                       <X size={16} />
@@ -515,6 +530,64 @@ export default function WebDevPage() {
               </div>
             </motion.div>
           </div>
+        )}
+
+        {selectedProject && isLightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/95 backdrop-blur-md p-4 cursor-zoom-out"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 cursor-pointer transition-all shadow-lg"
+              aria-label="Close full view"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Lightbox Content Container */}
+            <div 
+              className="relative w-full h-full max-w-[90vw] max-h-[85vh] flex items-center justify-center cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={currentProjectImages[currentImageIndex] || '/images/projects/generic-project.png'}
+                alt="Fullscreen view"
+                className="max-w-full max-h-full object-contain rounded-lg select-none shadow-2xl"
+              />
+            </div>
+
+            {/* Fullscreen Navigation (only if multiple images) */}
+            {currentProjectImages.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
+                  className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 flex items-center justify-center text-zinc-300 hover:text-white cursor-pointer transition-all shadow-lg"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
+                  className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 flex items-center justify-center text-zinc-300 hover:text-white cursor-pointer transition-all shadow-lg"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </>
+            )}
+
+            {/* Fullscreen Page Indicator */}
+            {currentProjectImages.length > 1 && (
+              <div className="absolute bottom-6 bg-zinc-900/80 border border-zinc-800 px-4 py-1.5 rounded-full text-xs font-mono text-zinc-400 select-none">
+                {currentImageIndex + 1} / {currentProjectImages.length}
+              </div>
+            )}
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

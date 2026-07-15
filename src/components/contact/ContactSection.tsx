@@ -78,24 +78,10 @@ export function ContactSection() {
     e.preventDefault();
     setStatus('loading');
     try {
-      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
-
-      if (!accessKey) {
-        console.log('[DEV] Form submission (no key set):', { name, email, message });
-        await new Promise(r => setTimeout(r, 600));
-        setStatus('ok');
-        setName(''); setEmail(''); setMessage('');
-        return;
-      }
-
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_key: accessKey,
-          subject: `New project inquiry from ${name} — Zynox`,
-          from_name: 'Zynox Contact Form',
-          replyto: email,
           name,
           email,
           message,
@@ -103,7 +89,7 @@ export function ContactSection() {
       });
 
       const data = await res.json();
-      if (data.success) {
+      if (res.ok && data.success) {
         setStatus('ok');
         setName(''); setEmail(''); setMessage('');
       } else {

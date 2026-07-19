@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
 
 export async function POST(req: Request) {
   try {
@@ -8,14 +9,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
     }
 
-    // Supports both NEXT_PUBLIC_ (browser-safe) and server-only naming
-    const accessKey =
-      process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
-      process.env.WEB3FORMS_ACCESS_KEY;
+    const apiKey = process.env.RESEND_API_KEY;
 
-    if (!accessKey) {
+    if (!apiKey) {
       // Development fallback — log to console when no key is configured
-      console.log(`\n--- [DEV: No Web3Forms key set] ---
+      console.log(`\n--- [DEV: No RESEND_API_KEY set] ---
 Name:    ${name}
 Email:   ${email}
 Message: ${message}
@@ -23,36 +21,49 @@ Message: ${message}
       return NextResponse.json({ success: true, mock: true });
     }
 
-    const payload = {
-      access_key: accessKey,
-      subject: `New project inquiry from ${name} — Zynox`,
-      from_name: 'Zynox Contact Form',
-      replyto: email,
-      name,
-      email,
-      message,
-    };
+    const resend = new Resend(apiKey);
 
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
+    const toEmail = process.env.CONTACT_TO_EMAIL ?? 'hello@zynoxtech.site';
+
+    const { error } = await resend.emails.send({
+      from: 'Zynox Contact Form <onboarding@resend.dev>',
+      to: [toEmail],
+      replyTo: email,
+      subject: `New project inquiry from ${name} — Zynox`,
+      text: [
+        `Name:    ${name}`,
+        `Email:   ${email}`,
+        ``,
+        `Message:`,
+        message,
+      ].join('\n'),
+      html: `
+        <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:32px;">
+          <h2 style="margin:0 0 24px;font-size:20px;color:#111;">New project inquiry — Zynox</h2>
+          <table style="width:100%;border-collapse:collapse;">
+            <tr>
+              <td style="padding:8px 0;color:#555;font-size:14px;width:80px;vertical-align:top;">Name</td>
+              <td style="padding:8px 0;font-size:14px;color:#111;font-weight:600;">${name}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#555;font-size:14px;vertical-align:top;">Email</td>
+              <td style="padding:8px 0;font-size:14px;color:#111;">
+                <a href="mailto:${email}" style="color:#4f8cff;">${email}</a>
+              </td>
+            </tr>
+          </table>
+          <hr style="border:none;border-top:1px solid #eee;margin:20px 0;" />
+          <p style="margin:0;font-size:14px;color:#555;line-height:1.7;white-space:pre-wrap;">${message}</p>
+          <p style="margin:32px 0 0;font-size:12px;color:#aaa;">
+            Sent via the Zynox contact form · Reply directly to this email to respond to ${name}.
+          </p>
+        </div>
+      `,
     });
 
-    // Safely read the response — web3forms may return HTML on network errors
-    const responseText = await response.text();
-    let data: { success?: boolean; message?: string } = {};
-
-    try {
-      data = JSON.parse(responseText);
-    } catch {
-      console.error('Web3Forms returned non-JSON response:', responseText.slice(0, 300));
-      return NextResponse.json({ error: 'Email service unreachable' }, { status: 502 });
-    }
-
-    if (!data.success) {
-      console.error('Web3Forms rejected the request:', data);
-      return NextResponse.json({ error: data.message ?? 'Failed to send' }, { status: 500 });
+    if (error) {
+      console.error('Resend error:', error);
+      return NextResponse.json({ error: error.message ?? 'Failed to send' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

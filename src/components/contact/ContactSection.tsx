@@ -159,7 +159,7 @@ export function ContactSection() {
             </a>
 
             <a
-              href="https://wa.me/92317059343?text=Hi! I'd like to discuss a project."
+              href="https://wa.me/92317059?text=Hi! I'd like to discuss a project."
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4 p-4 rounded-2xl border border-[#2A2D33] hover:border-[#25D366]/40 hover:bg-[#25D366]/5 transition-all duration-300"

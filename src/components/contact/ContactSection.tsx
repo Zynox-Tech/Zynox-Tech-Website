@@ -169,7 +169,7 @@ export function ContactSection() {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-semibold text-ink">WhatsApp</p>
-                <p className="text-xs text-ink-faint mt-0.5">+92 317 059 343</p>
+                <p className="text-xs text-ink-faint mt-0.5">+92 </p>
               </div>
               <ArrowRight size={14} className="text-ink-faint group-hover:text-[#25D366] group-hover:translate-x-0.5 transition-all shrink-0" />
             </a>
